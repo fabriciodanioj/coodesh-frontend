@@ -1,47 +1,176 @@
 import React from 'react';
 
-import Input from '@material-ui/core/Input';
+import { Button, Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
-import { Container, Header } from './styles';
+import Card from '~/components/Card';
+import api from '~/services/api';
+
+import { Header, Container } from './styles';
+import LoadingModal from '~/components/LoadingModal';
+
+const useStyles = makeStyles({
+  header: {
+    marginBottom: '50px',
+  },
+  input: {
+    width: '100%',
+  },
+
+  select: {
+    width: '100%',
+  },
+});
 
 function Main() {
-  const [search, setSearch] = React.useState('');
-  const [sort, setSort] = React.useState('');
+  const classes = useStyles();
+
+  const loadingRef = React.useRef(null);
+
+  const [filter, setFilter] = React.useState('');
+  const [sort, setSort] = React.useState('publishedAt');
+
+  const [articles, setArticles] = React.useState([]);
+  const [pagination, setPagination] = React.useState({
+    page: 1,
+    perPage: 10,
+    total: 0,
+  });
+
+  const getArticles = async ({ page, perPage, onlySum }) => {
+    if (loadingRef.current) {
+      loadingRef.current.open();
+    }
+
+    try {
+      const { data: response } = await api.get('/article', {
+        params: {
+          page,
+          perPage,
+          filter,
+          sort,
+        },
+      });
+
+      const { data, pagination: paginate } = response;
+
+      setPagination({
+        page: paginate.page,
+        perPage: paginate.perPage,
+        total: paginate.total,
+      });
+
+      if (onlySum) {
+        setArticles([...articles, ...data]);
+      } else {
+        setArticles(data);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      if (loadingRef.current) {
+        loadingRef.current.close();
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    getArticles({ page: 1, perPage: 10, onlySum: false });
+  }, [filter, sort]);
 
   return (
-    <Container>
-      <Header.Container>
-        <Header.Image src="https://coodesh.com/images/svg/logos/logo.svg" />
-        <Header.Title>
-          Space Flight News <span>by Coodesh</span>
-        </Header.Title>
-        <Header.Box>
-          <Input
-            id="outlined-name"
-            label="Name"
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value);
-            }}
-          />
+    <>
+      <Container>
+        <Grid
+          container
+          md={8}
+          xs={12}
+          align="center"
+          spacing={4}
+          className={classes.header}
+        >
+          <Grid item xs={12}>
+            <Header.Image src="https://coodesh.com/images/svg/logos/logo.svg" />
+          </Grid>
+          <Grid item xs={12}>
+            <Header.Title>
+              Space Flight News <span>by Coodesh</span>
+            </Header.Title>
+          </Grid>
 
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sort}
-            onChange={(event) => {
-              setSort(event.target.value);
-            }}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </Header.Box>
-      </Header.Container>
-    </Container>
+          <Grid item md={10} xs={12}>
+            <TextField
+              id="standard-basic"
+              className={classes.input}
+              label="Search by an article"
+              value={filter}
+              onChange={(event) => {
+                setFilter(event.target.value);
+              }}
+            />
+          </Grid>
+
+          <Grid item md={2} xs={12}>
+            <TextField
+              labelId="select-sort-label"
+              id="select-sort"
+              select
+              label="Sort by..."
+              className={classes.select}
+              value={sort}
+              onChange={(event) => {
+                setSort(event.target.value);
+              }}
+            >
+              <MenuItem value="publishedAt">Newest</MenuItem>
+              <MenuItem value="-publishedAt">Oldest</MenuItem>
+            </TextField>
+          </Grid>
+        </Grid>
+
+        <Grid container item xs={12} md={8}>
+          {articles.length > 0 ? (
+            articles.map((el, index) => (
+              <Card
+                isPair={index % 2 === 0}
+                article={{
+                  title: el.title,
+                  imageUrl: el.imageUrl,
+                  summary: el.summary,
+                  newsSite: el.newsSite,
+                  url: el.url,
+                  id: el._id,
+                }}
+              />
+            ))
+          ) : (
+            <Typography>Nada encontrado</Typography>
+          )}
+        </Grid>
+
+        {articles.length > 0 && (
+          <Grid item xs={12} alignItems="center">
+            <Button
+              variant="contained"
+              onClick={() =>
+                getArticles({
+                  page: pagination.page + 1,
+                  perPage: 10,
+                  onlySum: true,
+                })
+              }
+            >
+              Load more articles
+            </Button>
+          </Grid>
+        )}
+      </Container>
+      <LoadingModal ref={loadingRef} />
+    </>
   );
 }
 

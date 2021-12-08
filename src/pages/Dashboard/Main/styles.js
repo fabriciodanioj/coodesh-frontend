@@ -13,18 +13,9 @@ export const Container = styled.div`
 
 export const Header = {
   Image: styled.img`
-    max-width: 300px;
-
-    margin-bottom: 80px;
+    max-width: 250px;
   `,
-  Container: styled.div`
-    display: flex;
 
-    width: 100%;
-
-    flex-direction: column;
-    align-items: center;
-  `,
   Box: styled.div``,
   Title: styled.h1``,
 };

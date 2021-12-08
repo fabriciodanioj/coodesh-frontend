@@ -1,3 +1,3 @@
 export default {
-  font: "16px 'Open Sans', sans-serif",
+  font: "16px 'Roboto Condensed', sans-serif",
 };

@@ -7,6 +7,14 @@ This repo contains access to frontend and backend.
 
 React, MaterialUI, Styled-components, Unform by Rocketseat, Axios and Yup.
 
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`REACT_APP_API_URL`
+
+`REACT_APP_API_LOCAL`
+
 ## Run Locally
 
 Clone the project
@@ -38,7 +46,7 @@ Start the server
 To deploy this project you need to build first
 
 ```bash
-  npm run build:prod
+  npm run build
 ```
 
 This command will builds the app for production to the build folder. It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -48,3 +56,7 @@ The build is minified and the filenames include the hashes. Your app is ready to
 ## Authors
 
 - [@fabriciodanioj](https://www.github.com/fabriciodanioj)
+
+## Extra
+
+> This is a challenge by [Coodesh](https://coodesh.com/)

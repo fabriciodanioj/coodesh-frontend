@@ -1,7 +1,6 @@
 ## Fullstack Challenge 🏅 2021 - Space Flight News
 
 This repo is a challenge by Coodesh. We can view news about space flights that is provided by https://api.spaceflightnewsapi.net/v3/documentation. We can add, edit and delete articles to the database in the front end.
-This repo contains access to frontend and backend.
 
 ## Tech Stack
 

@@ -19,8 +19,6 @@ export default createGlobalStyle`
     width: 100%;
     background:  ${({ theme }) => theme.colors.background};
     color:  ${({ theme }) => theme.colors.primary};
-    height: 100%;
-
   }
 
   body, input, button {

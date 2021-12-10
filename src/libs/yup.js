@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 import * as yup from 'yup';
 
-yup.setLocale({
+/* yup.setLocale({
   mixed: {
     default: '${path} é inválido',
     required: '${path} é um campo obrigatório',
@@ -37,6 +37,6 @@ yup.setLocale({
     min: '${path} deve ter no mínimo ${min} itens',
     max: '${path} deve ter no máximo ${max} itens',
   },
-});
+}); */
 
 export default yup;

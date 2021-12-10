@@ -12,7 +12,7 @@ export const Field = styled.input`
   -webkit-appearance: none;
 
   background: transparent;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.secondary};
 
   font-size: 16px;
 
@@ -21,7 +21,7 @@ export const Field = styled.input`
   border-radius: 10px;
 
   transition: border-color 200ms linear;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
+  border: 1px solid ${({ theme }) => theme.colors.secondary};
 
   &::placeholder {
     font-size: 16px;
@@ -50,16 +50,7 @@ export const Label = styled.label`
   font-weight: 500;
   margin-bottom: 5px;
 
-  ${({ color }) => {
-    if (color === 'black')
-      return css`
-        color: '#000000';
-      `;
-
-    return css`
-      color: ${color};
-    `;
-  }}
+  color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const Error = styled.span`

@@ -28,6 +28,8 @@ export const Content = {
   Description: styled.p``,
   Image: styled.img`
     height: 100%;
+
+    max-height: 300px;
     border-radius: 8px;
   `,
 };

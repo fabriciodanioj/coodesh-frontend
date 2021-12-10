@@ -22,7 +22,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   font-size: 1.5rem;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.secondary};
   margin-bottom: 20px;
   text-align: center;
 `;

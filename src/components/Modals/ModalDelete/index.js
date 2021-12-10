@@ -1,22 +1,19 @@
 import React, { useImperativeHandle, forwardRef, useState } from 'react';
 
-import PropTypes from 'prop-types';
+import { Button } from '@material-ui/core';
 import { createPortal } from 'react-dom';
 import { IoIosClose } from 'react-icons/io';
-
-import Button from '~/components/Button';
 
 import { Container, Content, ButtonClose, Title } from '../ModalCustom/styles';
 import { Controls } from './styles';
 
-const Modal = ({ title, children, modalRef, onSubmit, ...rest }) => {
+const Modal = ({ title, children, onSubmit, ...rest }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
 
-  useImperativeHandle(modalRef, () => ({
+  useImperativeHandle(ref, () => ({
     open: (_id) => {
       setIsOpen(true);
-      console.log(_id);
       setDeleteId(_id);
     },
     close: () => setIsOpen(false),
@@ -31,12 +28,20 @@ const Modal = ({ title, children, modalRef, onSubmit, ...rest }) => {
             <IoIosClose />
           </ButtonClose>
           <Controls>
-            <Button label="Cancelar" onClick={() => modalRef.current.close()} />
             <Button
-              color="danger"
-              label="Excluir"
+              variant="outlined"
+              color="secondary"
+              onClick={() => setIsOpen(false)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
               onClick={() => onSubmit(deleteId)}
-            />
+            >
+              Excluir
+            </Button>
           </Controls>
         </Content>
       </Container>,
@@ -44,24 +49,6 @@ const Modal = ({ title, children, modalRef, onSubmit, ...rest }) => {
     );
 
   return null;
-};
-
-Modal.defaultProps = {
-  initialData: {},
-  size: 'default',
-};
-
-Modal.propTypes = {
-  initialData: PropTypes.oneOfType([PropTypes.object]),
-  title: PropTypes.string.isRequired,
-  size: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  modalRef: PropTypes.ref,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array,
-  ]).isRequired,
 };
 
 export default forwardRef(Modal);

@@ -13,12 +13,3 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
-export const Header = {
-  Image: styled.img`
-    max-width: 250px;
-  `,
-
-  Box: styled.div``,
-  Title: styled.h1``,
-};

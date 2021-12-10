@@ -15,13 +15,9 @@ export const Field = styled.textarea`
 
   padding: 10px;
   height: 100px;
-  border-radius: 4px;
+  border-radius: 8px;
   transition: border-color 200ms linear;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  :hover,
-  :focus {
-    border-color: #aeaeb2;
-  }
+  border: 1px solid ${({ theme }) => theme.colors.secondary};
 
   &::placeholder {
     font-size: 16px;
@@ -30,16 +26,17 @@ export const Field = styled.textarea`
 
   width: 100%;
 
-  max-width: ${({ width }) => width || `100%`}
-    ${({ error }) =>
+  max-width: ${({ width }) => width || `100%`};
+
+  ${({ error }) =>
     error &&
     css`
-        border-color: #ff3b2f;
+      border-color: #ff3b2f;
 
-        &:hover {
-          border-color: #f83019;
-        }
-      `};
+      &:hover {
+        border-color: #f83019;
+      }
+    `};
 `;
 
 export const Label = styled.label`
@@ -49,16 +46,7 @@ export const Label = styled.label`
   font-weight: 500;
   margin-bottom: 5px;
 
-  ${({ color }) => {
-    if (color === 'black')
-      return css`
-        color: '#000000';
-      `;
-
-    return css`
-      color: ${color};
-    `;
-  }}
+  color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const Error = styled.span`
